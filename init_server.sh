@@ -32,6 +32,23 @@ install_vim() {
     printf "\n\nSuccessfully install vim\n\n"
 }
 
+install_ufw() {
+    if sudo command -v sudo ufw > /dev/null;then
+        info "UFW already installed ✅"
+    else
+        info "Installing ufw"
+        sudo apt install ufw
+        info "Successfully install ufw ✅"
+        info "Enabling ufw"
+        sudo ufw enable
+        info "UFW enabled ✅"
+        enable_defualt_policies
+        info "Reloading firewall..."
+        info $(sudo ufw reload)
+        info "Firewall setup complete 🔒"
+    fi
+}
+
 init_server() {
     printf "Init server started \n\n"
 
@@ -49,6 +66,9 @@ init_server() {
                 ;;
                 vim)
                     install_vim
+                ;;
+                ufw)
+                    install_ufw
                 ;;
             esac
         done

@@ -2,9 +2,13 @@ add_user() {
     printf "\n"
 
     read -p "Username: " username
+
+    id $username 2> /dev/null 1>&2 && echo "$username already exists" && exit 1
     
     sudo useradd -m -s /bin/bash -U $username
     sudo passwd $username
+
+    printf "User $username successfully created\n\n"
 }
 
 edit_user() {
@@ -30,6 +34,7 @@ manage_user() {
                 add_user
             ;;
             "0")
+                echo "Goodbye"
                 break
             ;;
         esac
